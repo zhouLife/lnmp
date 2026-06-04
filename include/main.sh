@@ -755,6 +755,15 @@ Download_Files()
 {
     local URL=$1
     local FileName=$2
+    
+    # ===== 核心劫持：如果是我们新增的 PHP 8.4/8.5，重定向到官方下载地址 =====
+    if [[ "${FileName}" == "php-8.4.22.tar.gz" ]]; then
+        URL="https://www.php.net/distributions/php-8.4.22.tar.gz"
+    elif [[ "${FileName}" == "php-8.5.7.tar.gz" ]]; then
+        URL="https://www.php.net/distributions/php-8.5.7.tar.gz"
+    fi
+    # =============================================================
+
     if [ -s "${FileName}" ]; then
         echo "${FileName} [found]"
     else
