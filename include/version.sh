@@ -93,6 +93,11 @@ elif [ "${PHPSelect}" = "13" ]; then
     Php_Ver='php-8.2.23'
 elif [ "${PHPSelect}" = "14" ]; then
     Php_Ver='php-8.3.11'
+# ===== 新增 PHP 8.4 和 8.5 的硬编码版本 =====
+elif [ "${PHPSelect}" = "15" ]; then
+    Php_Ver='php-8.4.22'
+elif [ "${PHPSelect}" = "16" ]; then
+    Php_Ver='php-8.5.7'
 fi
 if [[ "${PHPSelect}" =~ ^[123]$ ]]; then
     PhpMyAdmin_Ver='phpMyAdmin-4.0.10.20-all-languages'
