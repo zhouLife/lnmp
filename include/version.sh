@@ -37,7 +37,7 @@ if [ -n "${Latest_Nginx}" ]; then
     Echo_Green "[+] Successfully detected Nginx latest stable version: ${Nginx_Ver}"
 else
     # 如果因为网络问题抓取失败，使用原本的 1.26.2 作为保底，防止脚本卡死
-    Nginx_Ver='nginx-1.26.2'
+    Nginx_Ver='nginx-1.30.2'
     Echo_Yellow "[-] Failed to fetch, fallback to default: ${Nginx_Ver}"
 fi
 # =================================================================
