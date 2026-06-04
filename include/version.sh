@@ -24,7 +24,23 @@ LuaNginxModule='lua-nginx-module-0.10.26'
 LuaRestyCore='lua-resty-core-0.1.28'
 LuaRestyLrucache='lua-resty-lrucache-0.13'
 NgxDevelKit='ngx_devel_kit-0.3.3'
-Nginx_Ver='nginx-1.26.2'
+# =================================================================
+# 动态自动获取 Nginx 官网最新的稳定版本号
+# =================================================================
+Echo_Blue "[+] Fetching the latest Nginx stable version from nginx.org..."
+
+# 从官网下载页抓取 Stable version 对应的版本号（例如 nginx-1.26.3）
+Latest_Nginx=$(curl -s https://nginx.org/en/download.html | grep -oE 'nginx-[0-9]+\.[0-9]+\.[0-9]+' | head -n 1)
+
+if [ -n "${Latest_Nginx}" ]; then
+    Nginx_Ver="${Latest_Nginx}"
+    Echo_Green "[+] Successfully detected Nginx latest stable version: ${Nginx_Ver}"
+else
+    # 如果因为网络问题抓取失败，使用原本的 1.26.2 作为保底，防止脚本卡死
+    Nginx_Ver='nginx-1.26.2'
+    Echo_Yellow "[-] Failed to fetch, fallback to default: ${Nginx_Ver}"
+fi
+# =================================================================
 NgxFancyIndex_Ver='ngx-fancyindex-0.5.2'
 if [ "${DBSelect}" = "1" ]; then
     Mysql_Ver='mysql-5.1.73'
