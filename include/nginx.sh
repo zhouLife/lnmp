@@ -103,6 +103,14 @@ Install_Nginx()
     Install_Nginx_Openssl
     Install_Nginx_Lua
     Install_Ngx_FancyIndex
+    
+    # ========================================================================
+    # 核心新增：强行拦截并钉死版本号为最新稳定版 1.30.2，防止上方的 Lua 比对函数篡改变量
+    # ========================================================================
+    Nginx_Ver="nginx-1.30.2"
+    Nginx_Version="1.30.2"
+    # ========================================================================
+
     Tar_Cd ${Nginx_Ver}.tar.gz ${Nginx_Ver}
     if [[ "${DISTRO}" = "Fedora" && ${Fedora_Version} -ge 28 ]]; then
         patch -p1 < ${cur_dir}/src/patch/nginx-libxcrypt.patch
