@@ -25,21 +25,29 @@ LuaRestyCore='lua-resty-core-0.1.28'
 LuaRestyLrucache='lua-resty-lrucache-0.13'
 NgxDevelKit='ngx_devel_kit-0.3.3'
 # =================================================================
-# 动态自动获取 Nginx 官网最新的稳定版本号
+# 动态自动获取 Nginx 官网最新的稳定版本号（安全防雪崩版）
 # =================================================================
-Echo_Blue "[+] Fetching the latest Nginx stable version from nginx.org..."
-
-# 从官网下载页抓取 Stable version 对应的版本号（例如 nginx-1.26.3）
-Latest_Nginx=$(curl -s https://nginx.org/en/download.html | grep -oE 'nginx-[0-9]+\.[0-9]+\.[0-9]+' | head -n 1)
+# 增加 --connect-timeout 3 和 -m 5，如果3秒连不上直接断开，绝不卡死
+Latest_Nginx=$(curl --connect-timeout 3 -m 5 -s https://nginx.org/en/download.html | grep -oE 'nginx-[0-9]+\.[0-9]+\.[0-9]+' | head -n 1)
 
 if [ -n "${Latest_Nginx}" ]; then
     Nginx_Ver="${Latest_Nginx}"
-    Echo_Green "[+] Successfully detected Nginx latest stable version: ${Nginx_Ver}"
+    # 用 command -v 检查函数是否存在，存在才调用，不存在就用普通的 echo，防止报错
+    if command -v Echo_Green >/dev/null 2>&1; then
+        Echo_Green "[+] Successfully detected Nginx latest stable version: ${Nginx_Ver}"
+    else
+        echo "[+] Successfully detected Nginx latest stable version: ${Nginx_Ver}"
+    fi
 else
-    # 如果因为网络问题抓取失败，使用原本的 1.26.2 作为保底，防止脚本卡死
+    # 联网失败时的保底版本
     Nginx_Ver='nginx-1.30.2'
-    Echo_Yellow "[-] Failed to fetch, fallback to default: ${Nginx_Ver}"
+    if command -v Echo_Yellow >/dev/null 2>&1; then
+        Echo_Yellow "[-] Failed to fetch, fallback to default: ${Nginx_Ver}"
+    else
+        echo "[-] Failed to fetch, fallback to default: ${Nginx_Ver}"
+    fi
 fi
+# =================================================================
 # =================================================================
 NgxFancyIndex_Ver='ngx-fancyindex-0.5.2'
 if [ "${DBSelect}" = "1" ]; then
