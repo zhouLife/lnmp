@@ -733,11 +733,17 @@ Download_Files()
 {
     local URL=$1
     local FileName=$2
-    if [[ "${FileName}" == "php-8.4.22.tar.gz" ]]; then
-        URL="https://www.php.net/distributions/php-8.4.22.tar.gz"
-    elif [[ "${FileName}" == "php-8.5.7.tar.gz" ]]; then
-        URL="https://www.php.net/distributions/php-8.5.7.tar.gz"
+    
+    # ========================================================================
+    #  【方法 B 智能劫持通道】：利用正则通配符智能匹配 PHP 8.4 和 8.5 的任意小版本
+    # ========================================================================
+    # 只要发现文件名是以 php-8.4. 或者 php-8.5. 开头的 tar.gz 压缩包，
+    # 无论小版本号是什么，一律自动劫持并重定向到 PHP 官方全球分发源，绝不走 404 的旧镜像站！
+    if [[ "${FileName}" =~ ^php-8\.[45]\..*\.tar\.gz$ ]]; then
+        URL="https://www.php.net/distributions/${FileName}"
+        Echo_Green "[+] Smart hijacking triggered! Redirecting ${FileName} to PHP Official Source..."
     fi
+    # ========================================================================
 
     if [ -s "${FileName}" ]; then
         echo "${FileName} [found]"
