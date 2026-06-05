@@ -381,80 +381,52 @@ PHP_Selection()
 
         PHPSelect="5"
         Echo_Yellow "You have 16 options for your PHP install."
-        echo "1: Install ${PHP_Info[0]}"
-        echo "2: Install ${PHP_Info[1]}"
-        echo "3: Install ${PHP_Info[2]}"
-        echo "4: Install ${PHP_Info[3]}"
-        echo "5: Install ${PHP_Info[4]} (Default)"
-        echo "6: Install ${PHP_Info[5]}"
-        echo "7: Install ${PHP_Info[6]}"
-        echo "8: Install ${PHP_Info[7]}"
-        echo "9: Install ${PHP_Info[8]}"
-        echo "10: Install ${PHP_Info[9]}"
-        echo "11: Install ${PHP_Info[10]}"
-        echo "12: Install ${PHP_Info[11]}"
-        echo "13: Install ${PHP_Info[12]}"
-        echo "14: Install ${PHP_Info[13]}"
-        echo "15: Install ${PHP_Info[14]}"
-        echo "16: Install ${PHP_Info[15]}"
+        echo "1: Install PHP 5.2.17"
+        echo "2: Install PHP 5.3.29"
+        echo "3: Install PHP 5.4.45"
+        echo "4: Install PHP 5.5.38"
+        echo "5: Install PHP 5.6.40 (Default)"
+        echo "6: Install PHP 7.0.33"
+        echo "7: Install PHP 7.1.33"
+        echo "8: Install PHP 7.2.34"
+        echo "9: Install PHP 7.3.33"
+        echo "10: Install PHP 7.4.33"
+        echo "11: Install PHP 8.0.30"
+        echo "12: Install PHP 8.1.29"
+        echo "13: Install PHP 8.2.23"
+        echo "14: Install PHP 8.3.11"
+        # ===== 安全修改：直接写死文本，不调取外部未初始化的 PHP_Info 数组，防止越界崩溃 =====
+        echo "15: Install PHP 8.4.22"
+        echo "16: Install PHP 8.5.7"
+        # =================================================================================
         read -p "Enter your choice (1-16): " PHPSelect
     fi
 
     case "${PHPSelect}" in
     1)
-        echo "You will install ${PHP_Info[0]}"
+        echo "You will install PHP 5.2.17"
         if [[ "${DBSelect}" = 0 ]]; then
-            echo "You didn't select MySQL/MariaDB can't select ${PHP_Info[0]}!"
+            echo "You didn't select MySQL/MariaDB can't select PHP 5.2.17!"
             exit 1
         fi
         ;;
-    2)
-        echo "You will install ${PHP_Info[1]}"
-        ;;
-    3)
-        echo "You will Install ${PHP_Info[2]}"
-        ;;
-    4)
-        echo "You will install ${PHP_Info[3]}"
-        ;;
-    5)
-        echo "You will install ${PHP_Info[4]}"
-        ;;
-    6)
-        echo "You will install ${PHP_Info[5]}"
-        ;;
-    7)
-        echo "You will install ${PHP_Info[6]}"
-        ;;
-    8)
-        echo "You will install ${PHP_Info[7]}"
-        ;;
-    9)
-        echo "You will install ${PHP_Info[8]}"
-        ;;
-    10)
-        echo "You will install ${PHP_Info[9]}"
-        ;;
-    11)
-        echo "You will install ${PHP_Info[10]}"
-        ;;
-    12)
-        echo "You will install ${PHP_Info[11]}"
-        ;;
-    13)
-        echo "You will install ${PHP_Info[12]}"
-        ;;
-    14)
-        echo "You will install ${PHP_Info[13]}"
-        ;;
-    15)
-        echo "You will install ${PHP_Info[14]}"
-        ;;
-    16)
-        echo "You will install ${PHP_Info[15]}"
-        ;;
+    2) echo "You will install PHP 5.3.29" ;;
+    3) echo "You will Install PHP 5.4.45" ;;
+    4) echo "You will install PHP 5.5.38" ;;
+    5) echo "You will install PHP 5.6.40" ;;
+    6) echo "You will install PHP 7.0.33" ;;
+    7) echo "You will install PHP 7.1.33" ;;
+    8) echo "You will install PHP 7.2.34" ;;
+    9) echo "You will install PHP 7.3.33" ;;
+    10) echo "You will install PHP 7.4.33" ;;
+    11) echo "You will install PHP 8.0.30" ;;
+    12) echo "You will install PHP 8.1.29" ;;
+    13) echo "You will install PHP 8.2.23" ;;
+    14) echo "You will install PHP 8.3.11" ;;
+    15) echo "You will install PHP 8.4.22" ;;
+    16) echo "You will install PHP 8.5.7" ;;
     *)
-        echo "No input,You will install ${PHP_Info[4]}"
+        echo "No input,You will install PHP 5.6.40"
         PHPSelect="5"
     esac
 }
