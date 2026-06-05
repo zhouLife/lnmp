@@ -38,9 +38,11 @@ LNMP一键安装包是一个用Linux Shell编写的可以为CentOS/RHEL/Fedora/D
 /nginx.sh 文件代码中的以下2处和version.sh中打版本保持一致性
 `Nginx_Ver="nginx-1.30.2"
 Nginx_Version="1.30.2"`
+
 nginx版本号查看 https://nginx.org/en/download.html
-修改php初始安装版本version.sh 在91行左右15和16可以修改成自己想要的php版本号https://www.php.net/
-php
+
+#修改php初始安装版本version.sh 在91行左右15和16可以修改成自己想要的php版本号https://www.php.net/
+
 
 ## 常用功能说明
 
