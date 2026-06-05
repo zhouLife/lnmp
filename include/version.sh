@@ -24,6 +24,17 @@ LuaNginxModule='lua-nginx-module-0.10.26'
 LuaRestyCore='lua-resty-core-0.1.28'
 LuaRestyLrucache='lua-resty-lrucache-0.13'
 NgxDevelKit='ngx_devel_kit-0.3.3'
+# ========================================================================
+# ⚠️ 【重要魔改说明】：手动指定/升级 Nginx 版本号注意事项
+# ========================================================================
+#以后需要升级或修改 Nginx 初始安装版本时，必须【同时修改以下2个文件】：
+#    ① 本文件 (include/version.sh)：
+#       修改下方的 Nginx_Ver='nginx-X.XX.X'，用于控制前端菜单显示和下载包名组装。
+#    ② 核心编译文件 (include/nginx.sh)：
+#       找到 Install_Nginx() 函数，在入口处同步修改硬编码拦截变量 Nginx_Ver 和 Nginx_Version。
+#       (必须修改 nginx.sh 是为了在编译前最后一毫秒强行拦截并钉死版本，防止官方自带的 
+#        二进制工具 version_compare 在内存中恶意将版本号篡改覆盖为 Mainline 版)。
+# ========================================================================
 Nginx_Ver='nginx-1.30.2'
 NgxFancyIndex_Ver='ngx-fancyindex-0.5.2'
 if [ "${DBSelect}" = "1" ]; then
