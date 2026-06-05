@@ -372,83 +372,8 @@ Database_Selection()
     fi
 }
 
-PHP_Selection()
-{
-#which PHP Version do you want to install?
-    if [ -z ${PHPSelect} ]; then
-        echo "==========================="
+Enter your choice (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14): ^[[B^[[B^[[B^[[A^[[A^[[A^[[A^[[A^[[A^C
 
-        PHPSelect="3"
-        Echo_Yellow "You have 9 options for your PHP install."
-        echo "1: Install ${PHP_Info[0]}"
-        echo "2: Install ${PHP_Info[1]}"
-        echo "3: Install ${PHP_Info[2]}"
-        echo "4: Install ${PHP_Info[3]}"
-        echo "5: Install ${PHP_Info[4]} (Default)"
-        echo "6: Install ${PHP_Info[5]}"
-        echo "7: Install ${PHP_Info[6]}"
-        echo "8: Install ${PHP_Info[7]}"
-        echo "9: Install ${PHP_Info[8]}"
-        echo "10: Install ${PHP_Info[9]}"
-        echo "11: Install ${PHP_Info[10]}"
-        echo "12: Install ${PHP_Info[11]}"
-        echo "13: Install ${PHP_Info[12]}"
-        echo "14: Install ${PHP_Info[13]}"
-        read -p "Enter your choice (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14): " PHPSelect
-    fi
-
-    case "${PHPSelect}" in
-    1)
-        echo "You will install ${PHP_Info[0]}"
-        if [[ "${DBSelect}" = 0 ]]; then
-            echo "You didn't select MySQL/MariaDB can't select ${PHP_Info[0]}!"
-            exit 1
-        fi
-        ;;
-    2)
-        echo "You will install ${PHP_Info[1]}"
-        ;;
-    3)
-        echo "You will Install ${PHP_Info[2]}"
-        ;;
-    4)
-        echo "You will install ${PHP_Info[3]}"
-        ;;
-    5)
-        echo "You will install ${PHP_Info[4]}"
-        ;;
-    6)
-        echo "You will install ${PHP_Info[5]}"
-        ;;
-    7)
-        echo "You will install ${PHP_Info[6]}"
-        ;;
-    8)
-        echo "You will install ${PHP_Info[7]}"
-        ;;
-    9)
-        echo "You will install ${PHP_Info[8]}"
-        ;;
-    10)
-        echo "You will install ${PHP_Info[9]}"
-        ;;
-    11)
-        echo "You will install ${PHP_Info[10]}"
-        ;;
-    12)
-        echo "You will install ${PHP_Info[11]}"
-        ;;
-    13)
-        echo "You will install ${PHP_Info[12]}"
-        ;;
-    14)
-        echo "You will install ${PHP_Info[13]}"
-        ;;
-    *)
-        echo "No input,You will install ${PHP_Info[4]}"
-        PHPSelect="5"
-    esac
-}
 
 MemoryAllocator_Selection()
 {
