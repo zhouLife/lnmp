@@ -38,8 +38,9 @@ LNMP一键安装包是一个用Linux Shell编写的可以为CentOS/RHEL/Fedora/D
 修改自己想要安装的版本号 继续打开 lnmp/include/nginx.sh 
 文件代码中的以下2处和version.sh中打版本保持一致性
 
-`Nginx_Ver="nginx-1.30.2"
-Nginx_Version="1.30.2"`
+`Nginx_Ver="nginx-1.30.2"`
+
+`Nginx_Version="1.30.2"`
 
 nginx版本号查看 https://nginx.org/en/download.html
 
