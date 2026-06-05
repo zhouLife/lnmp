@@ -33,6 +33,15 @@ LNMP一键安装包是一个用Linux Shell编写的可以为CentOS/RHEL/Fedora/D
 
 如断线可使用`screen -r lnmp` 恢复。**详细安装教程参考：<https://lnmp.org/install.html>**
 
+## 修改初始NGINX安装版本 以及修改php初始安装版本
+修改初始NGINX安装版本 需要修改 include/version.sh 代码中的 `Nginx_Ver='nginx-1.30.2'` 修改自己想要安装的版本号 继续打开 lnmp/include
+/nginx.sh 文件代码中的以下2处和version.sh中打版本保持一致性
+`Nginx_Ver="nginx-1.30.2"
+Nginx_Version="1.30.2"`
+nginx版本号查看 https://nginx.org/en/download.html
+修改php初始安装版本version.sh 在91行左右15和16可以修改成自己想要的php版本号https://www.php.net/
+php
+
 ## 常用功能说明
 
 **以下操作需在lnmp安装包目录下执行，如lnmp2.1**
