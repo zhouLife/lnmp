@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 DB_Info=('MySQL 5.1.73' 'MySQL 5.5.62' 'MySQL 5.6.51' 'MySQL 5.7.44' 'MySQL 8.0.39' 'MySQL 8.4.2' 'MariaDB 5.5.68' 'MariaDB 10.4.34' 'MariaDB 10.5.26' 'MariaDB 10.6.19' 'MariaDB 10.11.9')
-PHP_Info=('PHP 5.2.17' 'PHP 5.3.29' 'PHP 5.4.45' 'PHP 5.5.38' 'PHP 5.6.40' 'PHP 7.0.33' 'PHP 7.1.33' 'PHP 7.2.34' 'PHP 7.3.33' 'PHP 7.4.33' 'PHP 8.0.30' 'PHP 8.1.29' 'PHP 8.2.23' 'PHP 8.3.11')
+PHP_Info=('PHP 5.2.17' 'PHP 5.3.29' 'PHP 5.4.45' 'PHP 5.5.38' 'PHP 5.6.40' 'PHP 7.0.33' 'PHP 7.1.33' 'PHP 7.2.34' 'PHP 7.3.33' 'PHP 7.4.33' 'PHP 8.0.30' 'PHP 8.1.29' 'PHP 8.2.23' 'PHP 8.3.11' 'PHP 8.4.22' 'PHP 8.5.7')
 Apache_Info=('Apache 2.2.34' 'Apache 2.4.62')
 
 Database_Selection()
@@ -77,6 +77,7 @@ Database_Selection()
                 ;;
             esac
         else
+            fi
             Bin="n"
         fi
         ;;
@@ -372,8 +373,91 @@ Database_Selection()
     fi
 }
 
-Enter your choice (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14): ^[[B^[[B^[[B^[[A^[[A^[[A^[[A^[[A^[[A^C
+PHP_Selection()
+{
+#which PHP Version do you want to install?
+    if [ -z ${PHPSelect} ]; then
+        echo "==========================="
 
+        PHPSelect="5"
+        Echo_Yellow "You have 16 options for your PHP install."
+        echo "1: Install ${PHP_Info[0]}"
+        echo "2: Install ${PHP_Info[1]}"
+        echo "3: Install ${PHP_Info[2]}"
+        echo "4: Install ${PHP_Info[3]}"
+        echo "5: Install ${PHP_Info[4]} (Default)"
+        echo "6: Install ${PHP_Info[5]}"
+        echo "7: Install ${PHP_Info[6]}"
+        echo "8: Install ${PHP_Info[7]}"
+        echo "9: Install ${PHP_Info[8]}"
+        echo "10: Install ${PHP_Info[9]}"
+        echo "11: Install ${PHP_Info[10]}"
+        echo "12: Install ${PHP_Info[11]}"
+        echo "13: Install ${PHP_Info[12]}"
+        echo "14: Install ${PHP_Info[13]}"
+        echo "15: Install ${PHP_Info[14]}"
+        echo "16: Install ${PHP_Info[15]}"
+        read -p "Enter your choice (1-16): " PHPSelect
+    fi
+
+    case "${PHPSelect}" in
+    1)
+        echo "You will install ${PHP_Info[0]}"
+        if [[ "${DBSelect}" = 0 ]]; then
+            echo "You didn't select MySQL/MariaDB can't select ${PHP_Info[0]}!"
+            exit 1
+        fi
+        ;;
+    2)
+        echo "You will install ${PHP_Info[1]}"
+        ;;
+    3)
+        echo "You will Install ${PHP_Info[2]}"
+        ;;
+    4)
+        echo "You will install ${PHP_Info[3]}"
+        ;;
+    5)
+        echo "You will install ${PHP_Info[4]}"
+        ;;
+    6)
+        echo "You will install ${PHP_Info[5]}"
+        ;;
+    7)
+        echo "You will install ${PHP_Info[6]}"
+        ;;
+    8)
+        echo "You will install ${PHP_Info[7]}"
+        ;;
+    9)
+        echo "You will install ${PHP_Info[8]}"
+        ;;
+    10)
+        echo "You will install ${PHP_Info[9]}"
+        ;;
+    11)
+        echo "You will install ${PHP_Info[10]}"
+        ;;
+    12)
+        echo "You will install ${PHP_Info[11]}"
+        ;;
+    13)
+        echo "You will install ${PHP_Info[12]}"
+        ;;
+    14)
+        echo "You will install ${PHP_Info[13]}"
+        ;;
+    15)
+        echo "You will install ${PHP_Info[14]}"
+        ;;
+    16)
+        echo "You will install ${PHP_Info[15]}"
+        ;;
+    *)
+        echo "No input,You will install ${PHP_Info[4]}"
+        PHPSelect="5"
+    esac
+}
 
 MemoryAllocator_Selection()
 {
@@ -820,200 +904,4 @@ StartUp()
 
 Remove_StartUp()
 {
-    init_name=$1
-    echo "Removing ${init_name} service at system startup..."
-    [[ "${isWSL}" = "" ]] && Check_WSL
-    [[ "${isDocker}" = "" ]] && Check_Docker
-    if [ "${isWSL}" = "n" ] && [ "${isDocker}" = "n" ] && command -v systemctl >/dev/null 2>&1 && [[ -s /etc/systemd/system/${init_name}.service || -s /lib/systemd/system/${init_name}.service || -s /usr/lib/systemd/system/${init_name}.service ]]; then
-        systemctl disable ${init_name}.service
-    else
-        if [ "$PM" = "yum" ]; then
-            chkconfig ${init_name} off
-            chkconfig --del ${init_name}
-        elif [ "$PM" = "apt" ]; then
-            update-rc.d -f ${init_name} remove
-        fi
-    fi
-}
-
-Check_CMPT()
-{
-    if [[ "${DBSelect}" = "5" && "${Bin}" != "y" ]]; then
-        if echo "${Ubuntu_Version}" | grep -Eqi "^1[0-7]\." || echo "${Debian_Version}" | grep -Eqi "^[4-8]" || echo "${Raspbian_Version}" | grep -Eqi "^[4-8]" || echo "${CentOS_Version}" | grep -Eqi "^[4-7]"  || echo "${RHEL_Version}" | grep -Eqi "^[4-7]" || echo "${Fedora_Version}" | grep -Eqi "^2[0-3]"; then
-            Echo_Red "MySQL 8.0 please use latest linux distributions!"
-            exit 1
-        fi
-    fi
-    if [[ "${PHPSelect}" =~ ^1[0-3]$ ]]; then
-        if echo "${Ubuntu_Version}" | grep -Eqi "^1[0-7]\." || echo "${Debian_Version}" | grep -Eqi "^[4-8]" || echo "${Raspbian_Version}" | grep -Eqi "^[4-8]" || echo "${CentOS_Version}" | grep -Eqi "^[4-6]"  || echo "${RHEL_Version}" | grep -Eqi "^[4-6]" || echo "${Fedora_Version}" | grep -Eqi "^2[0-3]"; then
-            Echo_Red "PHP 7.4 and PHP 8.* please use latest linux distributions!"
-            exit 1
-        fi
-    fi
-    if [[ "${PHPSelect}" = "1" ]]; then
-        if echo "${Ubuntu_Version}" | grep -Eqi "^19|2[0-7]\." || echo "${Debian_Version}" | grep -Eqi "^1[0-9]" || echo "${Raspbian_Version}" | grep -Eqi "^1[0-9]" || echo "${Deepin_Version}" | grep -Eqi "^2[0-9]" || echo "${UOS_Version}" | grep -Eqi "^2[0-9]" || echo "${Fedora_Version}" | grep -Eqi "^29|3[0-9]"; then
-            Echo_Red "PHP 5.2 is not supported on very new linux versions such as Ubuntu 19+, Debian 10, Deepin 20+, Fedora 29+ etc."
-            exit 1
-        fi
-    fi
-}
-
-Color_Text()
-{
-  echo -e " \e[0;$2m$1\e[0m"
-}
-
-Echo_Red()
-{
-  echo $(Color_Text "$1" "31")
-}
-
-Echo_Green()
-{
-  echo $(Color_Text "$1" "32")
-}
-
-Echo_Yellow()
-{
-  echo $(Color_Text "$1" "33")
-}
-
-Echo_Blue()
-{
-  echo $(Color_Text "$1" "34")
-}
-
-Get_PHP_Ext_Dir()
-{
-    Cur_PHP_Version="`/usr/local/php/bin/php-config --version`"
-    zend_ext_dir="`/usr/local/php/bin/php-config --extension-dir`/"
-}
-
-Check_Stack()
-{
-    if [[ -s /usr/local/php/sbin/php-fpm && -s /usr/local/php/etc/php-fpm.conf && -s /etc/init.d/php-fpm && -s /usr/local/nginx/sbin/nginx ]]; then
-        Get_Stack="lnmp"
-    elif [[ -s /usr/local/nginx/sbin/nginx && -s /usr/local/apache/bin/httpd && -s /usr/local/apache/conf/httpd.conf && -s /etc/init.d/httpd && ! -s /usr/local/php/sbin/php-fpm ]]; then
-        Get_Stack="lnmpa"
-    elif [[ -s /usr/local/apache/bin/httpd && -s /usr/local/apache/conf/httpd.conf && -s /etc/init.d/httpd && ! -s /usr/local/php/sbin/php-fpm ]]; then
-        Get_Stack="lamp"
-    else
-        Get_Stack="unknow"
-    fi
-}
-
-Check_DB()
-{
-    if [[ -s /usr/local/mariadb/bin/mysql && -s /usr/local/mariadb/bin/mysqld_safe && -s /etc/my.cnf ]]; then
-        MySQL_Bin="/usr/local/mariadb/bin/mysql"
-        MySQL_Config="/usr/local/mariadb/bin/mysql_config"
-        MySQL_Dir="/usr/local/mariadb"
-        Is_MySQL="n"
-        DB_Name="mariadb"
-    elif [[ -s /usr/local/mysql/bin/mysql && -s /usr/local/mysql/bin/mysqld_safe && -s /etc/my.cnf ]]; then
-        MySQL_Bin="/usr/local/mysql/bin/mysql"
-        MySQL_Config="/usr/local/mysql/bin/mysql_config"
-        MySQL_Dir="/usr/local/mysql"
-        Is_MySQL="y"
-        DB_Name="mysql"
-    else
-        Is_MySQL="None"
-        DB_Name="None"
-    fi
-}
-
-Do_Query()
-{
-    echo "$1" >/tmp/.mysql.tmp
-    Check_DB
-    ${MySQL_Bin} --defaults-file=~/.my.cnf </tmp/.mysql.tmp
-    return $?
-}
-
-Make_TempMycnf()
-{
-    cat >~/.my.cnf<<EOF
-[client]
-user=root
-password='$1'
-EOF
-    chmod 600 ~/.my.cnf
-}
-
-Verify_DB_Password()
-{
-    Check_DB
-    status=1
-    while [ $status -eq 1 ]; do
-        read -s -p "Enter current root password of Database (Password will not shown): " DB_Root_Password
-        Make_TempMycnf "${DB_Root_Password}"
-        Do_Query ""
-        status=$?
-    done
-    echo "OK, MySQL root password correct."
-}
-
-TempMycnf_Clean()
-{
-    if [ -s ~/.my.cnf ]; then
-        rm -f ~/.my.cnf
-    fi
-    if [ -s /tmp/.mysql.tmp ]; then
-        rm -f /tmp/.mysql.tmp
-    fi
-}
-
-StartOrStop()
-{
-    local action=$1
-    local service=$2
-    [[ "${isWSL}" = "" ]] && Check_WSL
-    [[ "${isDocker}" = "" ]] && Check_Docker
-    if [ "${isWSL}" = "n" ] && [ "${isDocker}" = "n" ] && command -v systemctl >/dev/null 2>&1 && [[ -s /etc/systemd/system/${service}.service ]]; then
-        systemctl ${action} ${service}.service
-    else
-        /etc/init.d/${service} ${action}
-    fi
-}
-
-Check_WSL() {
-    if [[ "$(< /proc/sys/kernel/osrelease)" == *[Mm]icrosoft* ]]; then
-        echo "running on WSL"
-        isWSL="y"
-    else
-        isWSL="n"
-    fi
-}
-
-Check_Docker() {
-    if [ -f /.dockerenv ]; then
-        echo "running on Docker"
-        isDocker="y"
-    elif [ -f /proc/1/cgroup ] && grep -q docker /proc/1/cgroup; then
-        echo "running on Docker"
-        isDocker="y"
-    elif [ -f /proc/self/cgroup ] && grep -q docker /proc/self/cgroup; then
-        echo "running on Docker"
-        isDocker="y"
-    else
-        isDocker="n"
-    fi
-}
-
-Check_Openssl()
-{
-    if ! command -v openssl >/dev/null 2>&1; then
-        Echo_Blue "[+] Installing openssl..."
-        if [ "${PM}" = "yum" ]; then
-            yum install -y openssl
-        elif [ "${PM}" = "apt" ]; then
-            apt-get update -y
-            [[ $? -ne 0 ]] && apt-get update --allow-releaseinfo-change -y
-            apt-get install -y openssl
-        fi
-    fi
-    openssl version
-    if openssl version | grep -Eqi "OpenSSL 3.*"; then
-        isOpenSSL3='y'
-    fi
-}
+    init_name
